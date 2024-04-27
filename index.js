@@ -35,12 +35,27 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-
     app.post("/tourist", async (req, res) => {
       const newTourist = req.body;
       const result = await touristCollection.insertOne(newTourist);
       res.send(result);
     });
+    app.get("/tourist/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await touristCollection.findOne(query);
+      res.send(result);
+    });
+
+    // app.get("/tourist/:email", async (req, res) => {
+    //   const email = req.params.email;
+    //   const query = { email: email };
+    //   console.log("Searching for email:", email);
+    //   const result = await touristCollection.find(query).toArray();
+    //   console.log("Found tourist data:", result);
+    //   res.send(result);
+    // });
+
     ////
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

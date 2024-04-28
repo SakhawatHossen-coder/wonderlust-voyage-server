@@ -41,7 +41,6 @@ async function run() {
     //CountrySection
     const countryCollection = client.db("touristdb").collection("countries");
 
-
     app.get("/countries", async (req, res) => {
       const cursor = countryCollection.find();
       const result = await cursor.toArray();

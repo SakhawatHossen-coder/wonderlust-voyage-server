@@ -47,6 +47,16 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    app.get("/tourist/countries/:countryName", async (req, res) => {
+      console.log(req.params.countryName);
+      const result = await touristCollection
+        .find({
+          countryName: req.params.countryName,
+        })
+        .toArray();
+      console.log(result);
+      res.send(result);
+    });
     app.get("/tourist", async (req, res) => {
       const cursor = touristCollection.find();
       const result = await cursor.toArray();

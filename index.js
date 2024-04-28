@@ -6,7 +6,16 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 
 //middleware
+/*
+const corsOptions = {
+  origin: ['http://localhost:5173', 'http://localhost:5174','***'],
+  credentials: true,
+  optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions))
+*/
 app.use(cors());
+//
 app.use(express.json());
 
 //tourist-server
@@ -26,7 +35,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const touristCollection = client.db("touristdb").collection("tourists");
 
@@ -38,6 +47,13 @@ async function run() {
     app.post("/tourist", async (req, res) => {
       const newTourist = req.body;
       const result = await touristCollection.insertOne(newTourist);
+      res.send(result);
+    });
+    app.get("/tourist/email/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await touristCollection
+        .findOne({ userEmail: req.params.email });
+        // console.log(result)
       res.send(result);
     });
     app.get("/tourist/:id", async (req, res) => {

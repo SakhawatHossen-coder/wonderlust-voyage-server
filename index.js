@@ -52,8 +52,11 @@ async function run() {
     app.get("/tourist/email/:email", async (req, res) => {
       console.log(req.params.email);
       const result = await touristCollection
-        .findOne({ userEmail: req.params.email });
-        // console.log(result)
+        .find({
+          userEmail: req.params.email,
+        })
+        .toArray();
+      console.log(result);
       res.send(result);
     });
     app.get("/tourist/:id", async (req, res) => {
@@ -62,7 +65,12 @@ async function run() {
       const result = await touristCollection.findOne(query);
       res.send(result);
     });
-
+   app.delete("/tourist/:id", async (req,res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await touristCollection.deleteOne(query);
+      res.send(result);
+    });
     // app.get("/tourist/:email", async (req, res) => {
     //   const email = req.params.email;
     //   const query = { email: email };

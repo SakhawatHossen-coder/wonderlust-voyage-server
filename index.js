@@ -57,7 +57,10 @@ async function run() {
       res.send(result);
     });
     app.get("/tourist", async (req, res) => {
-      const cursor = touristCollection.find();
+      const option ={
+        sort:{averageCost:1},
+      }
+      const cursor = touristCollection.find().sort({averageCost:1});
       const result = await cursor.toArray();
       res.send(result);
     });

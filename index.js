@@ -1,20 +1,24 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const port = process.env.PORT || 5000;
 
 //middleware
-/*
+
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174','***'],
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://wanderlust-voyage.netlify.app",
+  ],
   credentials: true,
   optionSuccessStatus: 200,
-}
-app.use(cors(corsOptions))
-*/
-app.use(cors());
+};
+app.use(cors(corsOptions));
+
+// app.use(cors());
 //
 app.use(express.json());
 
@@ -57,10 +61,10 @@ async function run() {
       res.send(result);
     });
     app.get("/tourist", async (req, res) => {
-      const option ={
-        sort:{averageCost:1},
-      }
-      const cursor = touristCollection.find().sort({averageCost:1});
+      const option = {
+        sort: { averageCost: 1 },
+      };
+      const cursor = touristCollection.find().sort({ averageCost: 1 });
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -125,7 +129,7 @@ async function run() {
 
     ////
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
